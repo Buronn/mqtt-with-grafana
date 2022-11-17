@@ -1,0 +1,22 @@
+# This affects access control for clients with no username.
+topic read $SYS/#
+
+# This only affects clients with username "test".
+user test
+topic acc/x
+topic acc/y
+topic acc/z
+topic alt/alt
+topic roll/roll
+topic pitch/pitch
+
+user grafana
+topic acc/x
+topic acc/y
+topic acc/z
+topic alt/alt
+topic roll/roll
+topic pitch/pitch
+
+# This affects all clients.
+pattern write $SYS/broker/connection/%c/state
