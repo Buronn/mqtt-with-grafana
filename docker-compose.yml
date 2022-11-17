@@ -37,13 +37,21 @@ services:
     environment:
       - GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=ammpio-mqtt-datasource
       - GF_INSTALL_PLUGINS=https://github.com/svet-b/grafana-mqtt-datasource/archive/refs/heads/built.zip;ammpio-mqtt-datasource
-      - GF_SECURITY_ADMIN_PASSWORD=hola123
-      - GF_SECURITY_ADMIN_USER=hola123
       - GF_SECURITY_ALLOW_EMBEDDING=true
     volumes:
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
       - grafana-data:/var/lib/grafana
       - ./grafana/plugins:/var/lib/grafana/plugins
-      
+    nginx:
+      container_name: nginx
+      restart: always
+      build:
+        context: ./nginx
+        dockerfile: Dockerfile.prod
+      ports:
+        - '80:80'
+        - '443:443'
+      depends_on:
+          - grafana
 volumes:
   grafana-data:
